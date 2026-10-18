@@ -4,7 +4,8 @@ A thin client for the public Larped API. No keys, no dependencies beyond Python 
 
   larped <mint>            readable verdict, red flags, proofs and money trail
   larped <mint> --json     the full report as JSON (for bots and scripts)
-  larped <mint> --fresh    rescan now instead of using a saved scan
+
+Saved scans are used when current and refresh automatically when outdated.
 
 Set LARPED_API to use another instance (default https://larped-three.vercel.app).
 """
@@ -15,7 +16,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 API = os.environ.get("LARPED_API", "https://larped-three.vercel.app").rstrip("/")
 UA = f"larped-cli/{__version__}"
 
@@ -32,14 +33,12 @@ def fetch(path: str, timeout: int = 300) -> tuple[int, dict]:
             return e.code, {}
 
 
-def get_report(mint: str, fresh: bool = False) -> dict:
-    """Saved report first (free, not rate-limited); scan only when there is none, it is stale, or --fresh."""
-    if not fresh:
-        status, body = fetch(f"/api/report/{mint}", timeout=30)
-        if status == 200 and not body.get("stale"):
-            return body
-        fresh = status == 200  # a stale saved report: refreshing it is the same check, so ask for a rescan
-    status, body = fetch(f"/api/scan/{mint}?fresh=true" if fresh else f"/api/scan/{mint}")
+def get_report(mint: str) -> dict:
+    """Saved report first (free, not rate-limited); the server rescans only when there is none or it is outdated."""
+    status, body = fetch(f"/api/report/{mint}", timeout=30)
+    if status == 200 and not body.get("stale"):
+        return body
+    status, body = fetch(f"/api/scan/{mint}")
     if status == 200:
         return body
     reason = body.get("detail") or {429: "too many scans from your connection, try again later",
@@ -148,7 +147,7 @@ def main(argv: list[str] | None = None) -> int:
     if not 32 <= len(mint) <= 44:
         print("larped: give a Solana token mint address", file=sys.stderr)
         return 2
-    report = get_report(mint, fresh="--fresh" in args)
+    report = get_report(mint)
     if "--json" in args:
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:

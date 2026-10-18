@@ -17,10 +17,9 @@ pipx install git+https://github.com/FransmanKC/larped-cli
 ```bash
 larped <mint>            # verdict, red flags, proofs, money trail, timeline
 larped <mint> --json     # the full report as JSON, for bots and scripts
-larped <mint> --fresh    # rescan now instead of using a saved scan
 ```
 
-A saved scan is used when one exists (fast, no limit). New scans are rate-limited per connection.
+A saved scan is used when one exists (fast, no limit) and refreshes automatically when it is outdated. New scans are rate-limited per connection.
 
 ## What the verdict means
 
