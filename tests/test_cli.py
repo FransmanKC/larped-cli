@@ -21,7 +21,7 @@ def test_saved_report_first_then_scan(monkeypatch):
         return (200, {"stale": True}) if path.startswith("/api/report") else (200, {"headline": "fresh"})
     monkeypatch.setattr(cli, "fetch", fake)
     assert cli.get_report("M" * 44)["headline"] == "fresh"
-    assert calls == ["/api/report/" + "M" * 44, "/api/scan/" + "M" * 44]
+    assert calls == ["/api/report/" + "M" * 44, "/api/scan/" + "M" * 44 + "?fresh=true"]
     calls.clear()
     monkeypatch.setattr(cli, "fetch", lambda p, timeout=300: (calls.append(p), (200, {"headline": "saved"}))[1])
     assert cli.get_report("M" * 44)["headline"] == "saved" and len(calls) == 1

@@ -15,7 +15,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 API = os.environ.get("LARPED_API", "https://larped-three.vercel.app").rstrip("/")
 UA = f"larped-cli/{__version__}"
 
@@ -38,6 +38,7 @@ def get_report(mint: str, fresh: bool = False) -> dict:
         status, body = fetch(f"/api/report/{mint}", timeout=30)
         if status == 200 and not body.get("stale"):
             return body
+        fresh = status == 200  # a stale saved report: refreshing it is the same check, so ask for a rescan
     status, body = fetch(f"/api/scan/{mint}?fresh=true" if fresh else f"/api/scan/{mint}")
     if status == 200:
         return body
