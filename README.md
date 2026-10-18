@@ -2,7 +2,7 @@
 
 Check whether a Solana token's tech claims hold up, from your terminal.
 
-`larped` is a small client for the public [Larped](https://larped-three.vercel.app) API. It needs no API keys and has no dependencies beyond Python 3.10+.
+`larped` is a small client for the public [Larped](https://www.larped.tech) API. It needs no API keys and has no dependencies beyond Python 3.10+.
 
 ## Install
 

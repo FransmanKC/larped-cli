@@ -7,7 +7,7 @@ A thin client for the public Larped API. No keys, no dependencies beyond Python 
 
 Saved scans are used when current and refresh automatically when outdated.
 
-Set LARPED_API to use another instance (default https://larped-three.vercel.app).
+Set LARPED_API to use another instance (default https://www.larped.tech).
 """
 import json
 import os
@@ -16,8 +16,8 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-__version__ = "0.2.0"
-API = os.environ.get("LARPED_API", "https://larped-three.vercel.app").rstrip("/")
+__version__ = "0.2.1"
+API = os.environ.get("LARPED_API", "https://www.larped.tech").rstrip("/")
 UA = f"larped-cli/{__version__}"
 
 
