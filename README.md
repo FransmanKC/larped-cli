@@ -2,6 +2,10 @@
 
 Check whether a Solana token's tech claims hold up, from your terminal.
 
+**Official Larped token (CA):** `Fh6cy91FYhFfJ23hf4181gHVsrWkEY5b7es8MNXHpump`
+
+Only this address is the official Larped token. Check it on [larped.tech](https://www.larped.tech).
+
 `larped` is a small client for the public [Larped](https://www.larped.tech) API. It needs no API keys and has no dependencies beyond Python 3.10+.
 
 ## Install
