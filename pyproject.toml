@@ -1,0 +1,18 @@
+[project]
+name = "larped-cli"
+version = "0.1.0"
+description = "Check whether a Solana token's tech claims hold up, from your terminal (client for the Larped API)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.scripts]
+larped = "larped_cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.1,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = ["pytest==8.4.2"]
